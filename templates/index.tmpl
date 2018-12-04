@@ -1,11 +1,12 @@
 << define "index" >>
 <html>
   <head>
-    <title>Webtail</title>
+    <title id="title"></title>
     <meta name="viewport" content="width=device-width initial-scale=1 user-scalable=no" >
     <meta name="csrf_token" content="<<.token>>">
     <link rel="stylesheet" href="/css/angular-material.min.css">
     <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/style.css">
   </head>
   <body ng-app="webtail">
     <div ng-controller="mainController as mc" layout="column" ng-cloak>
@@ -31,50 +32,20 @@
         </div>
       </md-toolbar>
       <md-content flex layout-padding layout="column">
-        <md-content flex>
-          <md-input-container>
-            <label>Font Size</label>
-            <md-select ng-model="currSize">
-              <md-option ng-repeat="size in mc.fontSize" ng-value="size">
-                {{size}}
-              </md-option>
-            </md-select>
-          </md-input-container>
+       <md-input-container>
+<label>Font Size</label>Tailing file:
+<md-select ng-model="currSize">
+  <md-option ng-repeat="size in mc.fontSize" ng-value="size">
+    {{size}}
+  </md-option>
+</md-select>
+</md-input-container>
         </md-content>
-        <md-content flex  class="md-padding" id="container"style="font-size:{{currSize}}">
+        <md-content flex  class="md-padding" id="container" style="font-size:{{currSize}}">
           <!-- Content will be inserted by websocket connection -->
         </md-content>
-        <md-content class="md-padding">
-          <div layout="row" ng-hide="!showCard" class="ng-hide">
-            <md-content flex></md-content>
-            <md-card flex layout-align="center center">
-              <md-card-title>
-                <md-card-title-text>
-                  <span class="md-headline">Webtail - Remote log viewer</span>
-                </md-card-title-text>
-              </md-card-title>
-              <md-card-content>
-              <p>
-                To Get started, click on the banner to view the list of files
-              </p>
-              <p>
-                Have some fun :
-                <md-button ng-href="https://c.xkcd.com/random/comic/" target="_blank">Surprise!</md-button>
-              </p>
-              <p>
-                For any issues/suggestions:
-                <md-button flex href="https://github.com/prateeknischal/webtail"
-                  title="prateeknischal/webtail"
-                  target="_blank"
-                  aria-label="github.com"
-                  class="md-icon-button launch" >
-                  <md-icon md-svg-icon="/img/ic_launch_black_24px.svg"></md-icon>
-                </md-button>
-              </p>
-            </md-card>
-            <md-content flex></md-content>
-          </div>
-        </md-content>
+         <!-- The blinking cursor -->
+        <span class="blinking-cursor">|</span>
       </md-content>
       <div>
         <section layout="row">
@@ -88,8 +59,10 @@
               <md-list-item class="md-3-line" id="filelist" ng-click="open_connection('<<.>>')">
                 <div class="md-list-item-text">
                   <<.>>
+                  
                 </div>
-              </md-list-item>
+               
+              </md-list-item> 
               <md-divider></md-divider>
               <<end>>
             </md-list>
@@ -108,8 +81,28 @@
   <script src="/js/ui-bootstrap-tpls.min.js"></script>
   <script src="/js/app.js"></script>
   <script src="/js/index.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <!-- load web tail view of first file in directory -->
+  <script>
+  function eventFire(el, etype){
+    if (el.fireEvent) {
+      el.fireEvent('on' + etype);
+    } else {
+      var evObj = document.createEvent('Events');
+      evObj.initEvent(etype, true, true);
+      el.dispatchEvent(evObj);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function(){
+    eventFire(document.getElementById('open'), 'click');
+  });
+
+  
+  </script>
   <style type="text/css">
-    .scrollLock{
+   .scrollLock{
     position: fixed;
     }
     md-sidenav, md-backdrop,  {
@@ -118,3 +111,8 @@
   </style>
 </html>
 << end >>
+ {# window.scrollTo(0,document.body.scrollHeight);
+        var autoScroll = window.setInterval(function() {
+    var $target = $('html,body'); 
+    $target.animate({scrollTop: $target.height()}, 1000);
+  }, 500); #}
