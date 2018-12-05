@@ -46,8 +46,8 @@ function mainController($rootScope, $scope, $mdSidenav, $http) {
     if (window.location.protocol === "https:") {
       ws_proto = "wss:"
     }
-    //
-    var socket = new WebSocket(ws_proto + "//" + window.location.hostname + ":" +  "8080" + "/ws/" + btoa(file));
+    //window.location.port
+    var socket = new WebSocket(ws_proto + "//" + window.location.hostname + ":" +  "8000" + "/ws/" + btoa(file));
     var container = angular.element(document.querySelector("#container"));
 
     // clear the contents
