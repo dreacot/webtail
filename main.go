@@ -10,8 +10,8 @@ import (
 	"github.com/gorilla/csrf"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	"github.com/prateeknischal/webtail/controllers"
-	"github.com/prateeknischal/webtail/util"
+	"github.com/raedahgroup/webtail/controllers"
+	"github.com/raedahgroup/webtail/util"
 )
 
 var (
