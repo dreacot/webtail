@@ -47,7 +47,7 @@ function mainController($rootScope, $scope, $mdSidenav, $http) {
       ws_proto = "wss:"
     }
     //window.location.port
-    var socket = new WebSocket(ws_proto + "//" + window.location.hostname + ":" +  "8000" + "/ws/" + btoa(file));
+    var socket = new WebSocket(ws_proto + "//" + window.location.hostname + ":" +  "8080" + "/ws/" + btoa(file));
     var container = angular.element(document.querySelector("#container"));
 
     // clear the contents
