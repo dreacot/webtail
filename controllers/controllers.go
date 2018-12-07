@@ -16,6 +16,7 @@ import (
 	"github.com/gorilla/sessions"
 	"github.com/gorilla/websocket"
 	"github.com/raedahgroup/webtail/util"
+	"github.com/raedahgroup/webtail/config"
 )
 
 var (
@@ -42,6 +43,7 @@ func RootHandler(w http.ResponseWriter, r *http.Request) {
 	fileList["FileList"] = util.Conf.Dir
 	fileList[csrf.TemplateTag] = csrf.Token(r)
 	fileList["token"] = csrf.Token(r)
+	fileList["Port"] = *config.Port
 	t.Execute(w, fileList)
 }
 
