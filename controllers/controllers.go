@@ -15,13 +15,17 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
 	"github.com/gorilla/websocket"
-	"github.com/prateeknischal/webtail/util"
+	"github.com/raedahgroup/webtail/util"
+	"github.com/raedahgroup/webtail/config"
 )
 
 var (
 	upgrader = websocket.Upgrader{
 		ReadBufferSize:  1024,
 		WriteBufferSize: 1024,
+		CheckOrigin: func(r *http.Request) bool {
+			return true
+		},
 	}
 )
 
@@ -39,6 +43,7 @@ func RootHandler(w http.ResponseWriter, r *http.Request) {
 	fileList["FileList"] = util.Conf.Dir
 	fileList[csrf.TemplateTag] = csrf.Token(r)
 	fileList["token"] = csrf.Token(r)
+	fileList["Port"] = *config.Port
 	t.Execute(w, fileList)
 }
 

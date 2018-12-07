@@ -46,26 +46,39 @@ function mainController($rootScope, $scope, $mdSidenav, $http) {
     if (window.location.protocol === "https:") {
       ws_proto = "wss:"
     }
-    var socket = new WebSocket(ws_proto + "//" + window.location.hostname + ":" +  window.location.port + "/ws/" + btoa(file));
+    //window.location.port
+    var socket = new WebSocket(ws_proto + "//" + window.location.hostname + ":" +  Port + "/ws/" + btoa(file));
     var container = angular.element(document.querySelector("#container"));
 
     // clear the contents
-    container.html("")
+    container.html("");
+
+    function appendContent(content) {
+      //console.log((document.body.scrollTop + document.body.offsetHeight + 5),document.body.scrollHeight)
+      if ((document.body.scrollTop + document.body.offsetHeight + 5) >= document.body.scrollHeight) {
+        container.append(content);
+        window.scrollTo(0, document.body.scrollHeight);
+      }else{
+        container.append(content);
+      }
+    }
+
     socket.onopen = function () {
-      container.append("<p><b>$ tail -f "+ "./" + file.split('/').pop() + "</b></p>");
+      appendContent("<p><b>$ tail -f "+ "./" + file.split('/').pop() + "</b></p>");
       title.append("tail -f " + "./" + file.split('/').pop());
     };
     socket.onmessage = function (e) {
-      container.append(e.data.trim() + "<br>");
-
-      // On update of document scroll to bottom
-      window.scrollTo(0, document.body.scrollHeight);
+      appendContent(e.data.trim() + "<br>");
     }
     socket.onclose = function () {
-      container.append("<p>Websocket connection closed. Tail stopped.</p>");
+      appendContent("<p>Websocket connection closed. Tail stopped.</p>");
     }
     socket.onerror = function (e) {
-      container.append("<b style='color:red'>Some error occurred " + e.data.trim() + "<b>");
+      var err = "";
+      if (e && typeof (e.data) === "string") {
+          err = e.data.trim()
+      }
+      appendContent("<b style='color:red'>Some error occurred " + err + "<b>");
     }
     return socket;
   }

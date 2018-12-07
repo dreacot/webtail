@@ -23,13 +23,13 @@ func init() {
 
 // Login - tries to authenticate the user via PAM
 func Login(r *http.Request) (bool, string, error) {
-	username, password := r.FormValue("username"), r.FormValue("password")
+	username := r.FormValue("username")//, r.FormValue("password")
 
 	if !IsWhitelisted(username) {
 		return false, "", fmt.Errorf("username %s denied due to ACL", username)
 	}
 
-	isValid := PamAauthenticate(username, password)
+	isValid := 0//PamAauthenticate(username, password)
 	if isValid == 1 {
 		return true, username, nil
 	}
