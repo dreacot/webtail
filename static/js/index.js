@@ -66,6 +66,9 @@ function mainController($rootScope, $scope, $mdSidenav, $http) {
     socket.onopen = function () {
       appendContent("<p><b>$ tail -f "+ "./" + file.split('/').pop() + "</b></p>");
       title.append("tail -f " + "./" + file.split('/').pop());
+      /*for (var i = 0; i < 100; i++) {
+          appendContent(`<p>Spam content ${i}</p>`);
+      }*/
     };
     socket.onmessage = function (e) {
       appendContent(e.data.trim() + "<br>");
