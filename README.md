@@ -20,12 +20,3 @@ Args:
 ```
 
 To view the UI, navigate to *http(s)://server_ip:port* and you will be presented with a UI to view the logs.
-
-#### Examples
-```
-./webtail
-```
-This will run the server on port `8080` and look for files in the current Directory
-```
-./webtail --port 15000 ./file.log
-```
